@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -34,5 +33,4 @@ func Init() {
 	if err != nil {
 		log.Fatalf("Failed to decode environment variables: %s", err)
 	}
-	fmt.Println(Conf)
 }
