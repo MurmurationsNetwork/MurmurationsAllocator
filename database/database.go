@@ -18,7 +18,7 @@ func ConnectMongo() {
 		Username: config.Conf.Mongo.USERNAME,
 		Password: config.Conf.Mongo.PASSWORD,
 	}
-	clientOptions := options.Client().ApplyURI(config.Conf.Mongo.URL).SetAuth(credential)
+	clientOptions := options.Client().ApplyURI(config.Conf.Mongo.HOST).SetAuth(credential)
 	DB, err = mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Fatal("Failed to connect to MongoDB", err)
