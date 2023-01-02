@@ -24,7 +24,6 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.Use(cors.Default())
-	
 	r.GET("/", controllers.Ping)
 	r.GET("/profiles", controllers.GetProfiles)
 	srv := &http.Server{
