@@ -6,14 +6,13 @@ import (
 	"github.com/MurmurationsNetwork/MurmurationsAllocator/config"
 	"github.com/MurmurationsNetwork/MurmurationsAllocator/controllers"
 	"github.com/MurmurationsNetwork/MurmurationsAllocator/database"
-	corslib "github.com/gin-contrib/cors"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 )
 
 func init() {
@@ -24,6 +23,8 @@ func init() {
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
+	r.Use(cors.Default())
+	
 	r.GET("/", controllers.Ping)
 	r.GET("/profiles", controllers.GetProfiles)
 	srv := &http.Server{
@@ -64,27 +65,4 @@ func main() {
 		log.Println("timeout of 5 seconds.")
 	}
 	log.Println("Server exiting")
-}
-
-func getMiddlewares() []gin.HandlerFunc {
-	return []gin.HandlerFunc{
-		gin.Recovery(),
-		cors(),
-	}
-}
-
-func cors() gin.HandlerFunc {
-	// CORS for all origins, allowing:
-	// - GET, POST and DELETE methods
-	// - Origin, Authorization and Content-Type header
-	// - Credentials share
-	// - Preflight requests cached for 12 hours
-	return corslib.New(corslib.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "DELETE"},
-		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	})
 }
