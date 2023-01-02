@@ -1,8 +1,8 @@
+sourcepath: ""
+env: "development"
+
 image: ""
 
-url: allocator.murmurations.network
-
-allocator:
-  replicas: 1
-  service:
-    port: 8080
+replicas: 1
+service:
+  port: 8080

@@ -24,7 +24,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/", controllers.Ping)
 	r.GET("/profiles", controllers.GetProfiles)
-	svc := &http.Server{
+	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%s", config.Conf.Server.Port),
 		Handler:      r,
 		ReadTimeout:  config.Conf.Server.TimeoutRead,
@@ -32,25 +32,34 @@ func main() {
 		IdleTimeout:  config.Conf.Server.TimeoutIdle,
 	}
 
-	closed := make(chan struct{})
-	go waitForShutdown(svc, closed)
+	go func() {
+		// service connections
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
 
-	<-closed
-}
-
-func waitForShutdown(server *http.Server, closed chan struct{}) {
+	// Wait for interrupt signal to gracefully shutdown the server with
+	// a timeout of 5 seconds.
 	quit := make(chan os.Signal)
+	// kill (no param) default send syscanll.SIGTERM
+	// kill -2 is syscall.SIGINT
+	// kill -9 is syscall. SIGKILL but can"t be catch, so don't need add it
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
+	log.Println("Shutdown Server ...")
 
 	database.DisconnectMongo()
 
 	ctx, cancel := context.WithTimeout(context.Background(), config.Conf.Server.TimeoutIdle)
 	defer cancel()
-
-	if err := server.Shutdown(ctx); err != nil {
-		log.Fatal("Index service shutdown failure", err)
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
 	}
-
-	close(closed)
+	// catching ctx.Done(). timeout of 5 seconds.
+	select {
+	case <-ctx.Done():
+		log.Println("timeout of 5 seconds.")
+	}
+	log.Println("Server exiting")
 }

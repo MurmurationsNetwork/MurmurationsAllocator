@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: allocator-app
 spec:
-  replicas: {{ .Values.allocator.replicas }}
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app: allocator-app
@@ -20,11 +20,12 @@ spec:
                 name: allocator-app-config
             - secretRef:
                 name: allocator-app-secret
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8080
-            initialDelaySeconds: 600
-            periodSeconds: 60
-            timeoutSeconds: 30
-            failureThreshold: 3
+      {{- if eq .Values.env "development" }}
+          volumeMounts:
+            - mountPath: /src/allocator
+              name: source-path
+      volumes:
+          - name: source-path
+            hostPath:
+              path: {{ .Values.sourcepath }}
+      {{- end }}
