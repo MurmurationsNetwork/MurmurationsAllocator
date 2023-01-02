@@ -14,4 +14,4 @@ push-allocator: tag-allocator
 	docker push murmurations/allocator:$(TAG)
 
 deploy-allocator:
-	helm upgrade murmurations-allocator ./murmurationsAllocator --set env=$(DEPLOY_ENV) image=murmurations/allocator:$(TAG) --install --atomic
+	helm upgrade murmurations-allocator ./murmurationsAllocator --set env=$(DEPLOY_ENV),image=murmurations/allocator:$(TAG) --install --atomic
