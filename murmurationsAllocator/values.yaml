@@ -1,5 +1,7 @@
 image: ""
 
+url: allocator.murmurations.network
+
 allocator:
   replicas: 1
   service:

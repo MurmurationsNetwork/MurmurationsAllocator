@@ -1,11 +1,11 @@
 package main
 
 import (
-	"MurmurationsAllocator/config"
-	"MurmurationsAllocator/controllers"
-	"MurmurationsAllocator/database"
 	"context"
 	"fmt"
+	"github.com/MurmurationsNetwork/MurmurationsAllocator/config"
+	"github.com/MurmurationsNetwork/MurmurationsAllocator/controllers"
+	"github.com/MurmurationsNetwork/MurmurationsAllocator/database"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"

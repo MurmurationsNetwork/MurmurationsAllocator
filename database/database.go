@@ -1,10 +1,9 @@
 package database
 
-import "C"
 import (
-	"MurmurationsAllocator/config"
 	"context"
 	"fmt"
+	"github.com/MurmurationsNetwork/MurmurationsAllocator/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"

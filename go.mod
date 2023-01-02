@@ -1,4 +1,4 @@
-module MurmurationsAllocator
+module github.com/MurmurationsNetwork/MurmurationsAllocator
 
 go 1.19
 
