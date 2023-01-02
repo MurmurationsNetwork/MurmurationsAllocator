@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: index-app
+spec:
+  replicas: {{ .Values.allocator.replicas }}
+  selector:
+    matchLabels:
+      app: allocator-app
+  template:
+    metadata:
+      labels:
+        app: allocator-app
+    spec:
+      containers:
+        - name: allocator-app
+          image: {{ .Values.image }}
+          envFrom:
+            - configMapRef:
+                name: allocator-app-config
+            - secretRef:
+                name: allocator-app-secret
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 600
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
