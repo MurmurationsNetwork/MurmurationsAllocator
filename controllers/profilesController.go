@@ -86,7 +86,7 @@ func GetProfiles(c *gin.Context) {
 	}
 
 	if len(profiles) == 0 {
-		c.JSON(http.StatusOK, []string{})
+		c.JSON(http.StatusOK, gin.H{"data": []string{}})
 		return
 	}
 
@@ -98,5 +98,5 @@ func GetProfiles(c *gin.Context) {
 		queryResults = append(queryResults, mapResult)
 	}
 
-	c.JSON(http.StatusOK, queryResults)
+	c.JSON(http.StatusOK, gin.H{"data": queryResults})
 }
