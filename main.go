@@ -25,6 +25,7 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 	r.GET("/", controllers.Ping)
+	r.GET("/profile", controllers.GetProfile)
 	r.GET("/profiles", controllers.GetProfiles)
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%s", config.Conf.Server.Port),
