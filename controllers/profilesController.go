@@ -54,8 +54,7 @@ func GetProfiles(c *gin.Context) {
 		filter["linked_schemas"] = bson.D{{"$in", schemaArray}}
 	}
 	if getParams.Has("primary_url") {
-		primaryUrl := getParams.Get("primary_url")
-		filter["primary_url"] = primaryUrl
+		filter["primary_url"] = getParams.Get("primary_url")
 	}
 	if getParams.Has("last_updated") {
 		lastUpdated := getParams.Get("last_updated")
@@ -67,6 +66,9 @@ func GetProfiles(c *gin.Context) {
 			return
 		}
 		filter["last_updated"] = bson.D{{"$gte", lastUpdatedInt}}
+	}
+	if getParams.Has("status") {
+		filter["status"] = getParams.Get("status")
 	}
 
 	cursor, err := coll.Find(context.TODO(), filter, opts)
