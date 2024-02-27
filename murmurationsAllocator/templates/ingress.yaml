@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: allocator-ingress
   annotations:
-    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     {{- if not (eq .Values.env "development") }}
@@ -11,6 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     {{- end }}
 spec:
+  ingressClassName: nginx
   {{- if eq .Values.env "production" }}
   tls:
     - hosts:
