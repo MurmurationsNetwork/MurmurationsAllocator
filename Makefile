@@ -1,4 +1,4 @@
-TAG=$(shell git rev-parse --short ${GITHUB_SHA})$(and $(shell git status -s),-dirty)
+TAG ?= $(shell git rev-parse --short $(if $(GITHUB_SHA),$(GITHUB_SHA),HEAD))
 
 dev:
 	export SOURCEPATH=$(PWD) && skaffold dev
