@@ -1,3 +1,4 @@
+DEPLOY_ENV ?= development
 TAG ?= $(shell git rev-parse --short $(if $(GITHUB_SHA),$(GITHUB_SHA),HEAD))
 
 dev:
