@@ -7,18 +7,19 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
+	"net/url"
 	"time"
 )
 
 var DB *mongo.Client
 
 func ConnectMongo() {
+	username := url.QueryEscape(config.Conf.Mongo.USERNAME)
+	password := url.QueryEscape(config.Conf.Mongo.PASSWORD)
+	mongoURI := "mongodb://" + username + ":" + password + "@" + config.Conf.Mongo.HOST + "/?authSource=admin&tls=true"
+	clientOptions := options.Client().ApplyURI(mongoURI)
+
 	var err error
-	credential := options.Credential{
-		Username: config.Conf.Mongo.USERNAME,
-		Password: config.Conf.Mongo.PASSWORD,
-	}
-	clientOptions := options.Client().ApplyURI(config.Conf.Mongo.HOST).SetAuth(credential)
 	DB, err = mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Fatal("Failed to connect to MongoDB", err)
