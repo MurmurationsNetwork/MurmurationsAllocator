@@ -28,7 +28,7 @@ spec:
     {{- else if eq .Values.env "staging" }}
     - host: test-allocator.murmurations.network
     {{- else }}
-    - host: allocator.murmurations.dev
+    - host: allocator.murmurations.developers
     {{- end }}
       http:
         paths:
