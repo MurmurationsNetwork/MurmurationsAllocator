@@ -17,5 +17,5 @@
     ```
 3. Add the following to your host file sudo vim /etc/hosts
    ```
-   127.0.0.1    allocator.murmurations.dev
+   127.0.0.1    allocator.murmurations.developers
    ```
