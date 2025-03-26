@@ -1,7 +1,6 @@
 module github.com/MurmurationsNetwork/MurmurationsAllocator
 
 go 1.19
-toolchain go1.24.1
 
 require (
 	github.com/caarlos0/env/v6 v6.10.1
